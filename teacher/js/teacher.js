@@ -211,10 +211,10 @@ var help_needed =  false; //Teacher has work to do
 
 //Websockets
 var server = document.location.href.substr(0,document.location.href.lastIndexOf(':'));
-//server = "163.117.141.206";
+server = "163.117.141.206";
 //local server
-server = "127.0.0.1";
-var socket = io.connect(server+':80');
+//server = "127.0.0.1";
+var socket = io.connect(server+':8080');
 
 //Connect to the server
 socket.on('connect', function() {

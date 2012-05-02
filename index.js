@@ -500,6 +500,6 @@ io.sockets.on('connection', function (socket) {
 });
 
 //Launch app
-app.listen(80);
+app.listen(8080);
 console.log('Server running...');
 
