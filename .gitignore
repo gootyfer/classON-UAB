@@ -1,0 +1,11 @@
+.DS_Store
+node_modules
+.project
+.settings
+*~
+
+classon-UAB.sublime-project
+
+classon-UAB.sublime-workspace
+
+users/photos/
