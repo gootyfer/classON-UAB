@@ -137,6 +137,11 @@ h5 {
 	border-color: #D3D3D3;
 }
 
+.table_icon {
+	margin: 5px;
+	padding: 5px;
+}
+
 .row {
 	clear: both;
     margin: 0 auto 0 auto;
