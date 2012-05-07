@@ -173,7 +173,7 @@ function saveUsers(){
 		}else{
 			usersOK();
 		}
-	});
+	}, true);
 }
 
 
@@ -332,7 +332,7 @@ function vote(qid){
 }
 
 var socket;
-function checkUsers(callback){
+function checkUsers(callback, force){
 	if(!socket){
 		var server = document.location.href.hostname;
 		//var server = document.location.href.substr(0,document.location.href.lastIndexOf(':'));
@@ -340,7 +340,7 @@ function checkUsers(callback){
 		//server = "127.0.0.1";
 		socket = io.connect(server+':8080');
 		socket.on('connect', function() {
-			sendEventToServer('new student', {session: session});
+			sendEventToServer('new student', {session: session, force: (force==true)});
 			//console.log('new student when connecting');
 			//socket.emit('new student', {user: user, session: session});
 			//Should ba called: init
@@ -381,7 +381,7 @@ function checkUsers(callback){
 		});
 	}else{
 		//socket.emit('new student', {user: user, session: session});
-		sendEventToServer('new student', {session: session});
+		sendEventToServer('new student', {session: session, force: (force==true)});
 		
 	}
 }

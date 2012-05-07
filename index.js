@@ -408,6 +408,7 @@ io.sockets.on('connection', function (socket) {
 	//New student event (STUDENT)
 	socket.on("new student", function(users){
 		students = users.user;
+		var force = users.force;
 		console.log('new student:'+students.join(","));
 		//Check info of the first student, suppose the second is in the same group
 		//Slice is used to make a copy of the array
@@ -433,13 +434,18 @@ io.sockets.on('connection', function (socket) {
 							//fakeIP
 							var my_queue_pos = my_queue.indexOf(users.IP);
 							//console.log("Position("+my_queue_pos+") of "+socket.handshake.address.address+" in queue "+my_queue);
-							socket.emit('student registered', {
-								userInfoArray : userInfoArray,
-								exercise: my_session[j].exercise, 
-								help: (my_queue_pos===-1)?false:(my_queue_pos+1),
-								questions: my_questions
-							});
-							found = true;
+							if(force){
+								my_session.splice(j,1);
+								my_queue.splice(my_queue_pos,1);
+							}else{
+								socket.emit('student registered', {
+									userInfoArray : userInfoArray,
+									exercise: my_session[j].exercise, 
+									help: (my_queue_pos===-1)?false:(my_queue_pos+1),
+									questions: my_questions
+								});
+								found = true;
+							}
 							break;
 						}
 					}
