@@ -5,7 +5,7 @@ var group = "uab";
 var pcs = [];
 
 //Define ids for the users in the space
-for(var i=-5; i<25; i++){
+for(var i=0; i<24; i++){
 	pcs.push({IP:String(i+1)});
 }
 

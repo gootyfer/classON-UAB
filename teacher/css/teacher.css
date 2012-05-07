@@ -23,7 +23,7 @@ h5 {
 
 .application_footer {
 	position: absolute;
-	top: 850px;
+	top: 1250px;
 	height: 50px;
 	width: 100%;
 	border: 1px solid #cad6e2; 
@@ -252,6 +252,22 @@ h5 {
 .figure{
 	float:left;
 	margin: 10px;
+}
+
+.circle {
+	width: 300px;
+	height: 300px;
+	background: brown;
+	-moz-border-radius: 150px;
+	-webkit-border-radius: 150px;
+	border-radius: 150px;
+}
+
+.column {
+	position: absolute;
+	top: 120px;
+	width: 300px;
+	left: 500px;
 }
 
 /* green */
