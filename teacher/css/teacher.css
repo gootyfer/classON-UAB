@@ -23,7 +23,7 @@ h5 {
 
 .application_footer {
 	position: absolute;
-	top: 1250px;
+	top: 850px;
 	height: 50px;
 	width: 100%;
 	border: 1px solid #cad6e2; 
@@ -138,8 +138,8 @@ h5 {
 }
 
 .table_icon {
-	margin: 5px;
-	padding: 5px;
+	margin: 25px;
+	padding: 25px;
 }
 
 .row {
@@ -259,18 +259,15 @@ h5 {
 	margin: 10px;
 }
 
-.circle {
-	width: 300px;
-	height: 300px;
+.bigcomp {
+	width: 150px;
+	height: 150px;
 	background: brown;
-	-moz-border-radius: 150px;
-	-webkit-border-radius: 150px;
-	border-radius: 150px;
 }
 
 .column {
 	position: absolute;
-	top: 120px;
+	top: 80px;
 	width: 300px;
 	left: 500px;
 }

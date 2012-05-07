@@ -5,8 +5,8 @@ var group = "uab";
 var pcs = [];
 
 //Define ids for the users in the space
-for(var i=0; i<24; i++){
-	pcs.push({IP:String(i+1)});
+for(var i=13; i>0; i--){
+	pcs.push({IP:String(i)});
 }
 
 //Collect params from  URL

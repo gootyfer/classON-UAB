@@ -150,8 +150,9 @@ function requestUser(error){
 		theme:     true, 
         title:    'Participante', 
 		message: "<div>Por favor, introduce el id de usuario para acceder al enunciado. Gracias.<br /><br />" +
-		"User id: <input type='text' id='p1' value='"+(user[0]?user[0]:"")+"' /><br />" +
-		"Puesto: <input type='text' id='p2' value='' /><br />" +
+		"Usuario 1: <input type='text' id='p1' value='"+(user[0]?user[0]:"")+"' /><br />" +
+		"Usuario 2: <input type='text' id='p2' value='"+(user[1]?user[1]:"")+"' /><br />" +
+		"Puesto: <input type='text' id='place' value='' /><br />" +
 		"<div><input type='button' onclick='saveUsers()' value='OK' style='float: right;' /></div>" +
 		"<div id='error' class='error'>"+(error?error:"")+"</div></div>"});
 	user = [];
@@ -160,9 +161,11 @@ function requestUser(error){
 function saveUsers(){
 	var user1 = document.getElementById("p1").value;
 	if(user1) user.push(user1);
+	var user2 = document.getElementById("p2").value;
+	if(user2) user.push(user2);
 	
-	position = document.getElementById("p2").value;
-	//if(user2) user.push(user2);
+	position = document.getElementById("place").value;
+	
 	checkUsers(function(error){
 		if(error){
 			$.unblockUI();
