@@ -94,7 +94,7 @@ function showUsers(id){
 		if(pcs[id].description){
 			var desc = document.createElement("div");
 			desc.className = "desc";
-			desc.innerHTML = "Duda: "+pcs[id].description;
+			desc.innerHTML = "Question: "+pcs[id].description;
 			users.appendChild(desc);
 		}
 	}
@@ -116,7 +116,7 @@ function showUsers(id){
 	var back_button = document.createElement("div");
 	back_button.addEventListener("click", function(){ goBack(id, button);});
 	users.appendChild(back_button);
-	back_button.innerHTML = "VOLVER";
+	back_button.innerHTML = "BACK";
 	back_button.className = "button gray back";
 	
 }
@@ -139,7 +139,7 @@ function showQuestions(){
 		sHTML+="<li>"+questions[i].description+" (<span>"+questions[i].votes.length+
 			" votos</span>)</li>";
 	}
-	sHTML += "</ul><br><input type='button' class='button gray back' value='VOLVER' "+
+	sHTML += "</ul><br><input type='button' class='button gray back' value='BACK' "+
 	"onclick='goBack()' />";
 	users.innerHTML = sHTML;
 }
@@ -214,7 +214,7 @@ var server = document.location.href.substr(0,document.location.href.lastIndexOf(
 server = "163.117.141.206";
 //local server
 //server = "127.0.0.1";
-var socket = io.connect(server+':8080');
+var socket = io.connect(server+':80');
 
 //Connect to the server
 socket.on('connect', function() {
@@ -222,7 +222,7 @@ socket.on('connect', function() {
 	var button = document.getElementsByClassName("button")[0];
 	button.classList.add("green");
 	button.classList.remove("red");
-	button.innerHTML = "Conectado";
+	button.innerHTML = "Connected";
 	//Send event
 	socket.emit("new teacher", {session: group+session, teacher_id: teacher});
 	//Request students info

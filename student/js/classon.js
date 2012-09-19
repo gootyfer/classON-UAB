@@ -60,7 +60,7 @@ progressbar.low = 20;
 progressbar.high = 80;
 progressbar.optimum = 100;
 progressbar.value = 0;
-progressbar.innerHTML = "Progreso";
+progressbar.innerHTML = "Progression";
 progressdiv.appendChild(progressbar);
 
 menu.appendChild(progressdiv);
@@ -75,7 +75,7 @@ indicateProgress();
 //Help button
 var helpButton = document.createElement("div");
 helpButton.addEventListener("click", askForHelp);
-helpButton.innerHTML = "AYUDA";
+helpButton.innerHTML = "HELP!";
 helpButton.className = "button red";
 menu.appendChild(helpButton);
 //Waiting for help?
@@ -110,8 +110,8 @@ function usersOK(){
 	//User info
 	info.innerHTML = (usersInfo[0]?usersInfo[0].name:"")+"<br />"+
 	(usersInfo[1]?usersInfo[1].name:"")+"<br />"+
-	"<input type='button' onclick='logout()' value='DESCONECTAR' style='margin: auto;' />"+
-	"<input type='button' onclick='show_questions()' value='PREGUNTAS' style='margin: auto;' />";
+	"<input type='button' onclick='logout()' value='LOG OUT' style='margin: auto;' />"+
+	"<input type='button' onclick='show_questions()' value='QUESTIONS' style='margin: auto;' />";
 	
 	$.unblockUI();
 }
@@ -128,7 +128,7 @@ function show_questions(){
 			" votos</span>) <input type='button' value='+1' onclick='vote("+i+")' "+
 			(voted?"disabled='disabled'":"")+" /></li>";
 	}
-	sHTML += "</ul><br><input type='button' value='VOLVER' onclick='back()' />";
+	sHTML += "</ul><br><input type='button' value='BACK' onclick='back()' />";
 	questions_div.innerHTML = sHTML;
 	questions_div.className="";
 }
@@ -148,11 +148,11 @@ function requestUser(error){
 	window.localStorage.removeItem("position");
 	$.blockUI({
 		theme:     true, 
-        title:    'Participante', 
-		message: "<div>Por favor, introduce el id de usuario para acceder al enunciado. Gracias.<br /><br />" +
-		"Usuario 1: <input type='text' id='p1' value='"+(user[0]?user[0]:"")+"' /><br />" +
-		"Usuario 2: <input type='text' id='p2' value='"+(user[1]?user[1]:"")+"' /><br />" +
-		"Puesto: <input type='text' id='place' value='' /><br />" +
+        title:    'Participant', 
+		message: "<div>Please, introduce your user id to access to the assignment. Thank you.<br /><br />" +
+		"User 1: <input type='text' id='p1' value='"+(user[0]?user[0]:"")+"' /><br />" +
+		"User 2: <input type='text' id='p2' value='"+(user[1]?user[1]:"")+"' /><br />" +
+		"Position: <input type='text' id='place' value='' /><br />" +
 		"<div><input type='button' onclick='saveUsers()' value='OK' style='float: right;' /></div>" +
 		"<div id='error' class='error'>"+(error?error:"")+"</div></div>"});
 	user = [];
@@ -169,7 +169,7 @@ function saveUsers(){
 	checkUsers(function(error){
 		if(error){
 			$.unblockUI();
-			requestUser("El id de usuario no es correcto. Por favor, rev&iacute;salo y pincha OK.");
+			requestUser("The user id is not correct. Please, correct it and click OK.");
 		}else{
 			usersOK();
 		}
@@ -219,7 +219,7 @@ function indicateProgress(back){
 		if(currentSection==menuItems.length){ //Last icon
 			var completedDiv = document.createElement("div");
 			completedDiv.className = "completed";
-			completedDiv.innerHTML = "&iexcl;COMPLETADO!";
+			completedDiv.innerHTML = "&iexcl;COMPLETED!";
 			progressdiv.appendChild(completedDiv);
 		}else{
 			if(currentSection>0){
@@ -238,9 +238,9 @@ function askForHelp(){
 	$.blockUI({
 		theme:     true, 
         title:    (helpNeeded)?'Soluci&oacute;n':'Duda', 
-		message: "<div>Por favor, describe brevemente la "+(helpNeeded?'respuesta a tu duda':'duda que vas a preguntar')+".<br /><br />" +
+		message: "<div>Please, describe briefly "+(helpNeeded?'the answer to your question':'your question')+".<br /><br />" +
 		"<textarea id='duda' style='width:100%;height:100px'></textarea><br /><br />" +
-		"<div><input type='button' onclick='$.unblockUI();' value='Cancelar' style='float:left;' />" +
+		"<div><input type='button' onclick='$.unblockUI();' value='Cancel' style='float:left;' />" +
 		"<input type='button' onclick='askForHelp2()' value='OK' style='float: right;' /></div></div>"});
 }
 
@@ -248,7 +248,7 @@ function askForHelp(){
 function askForHelp2(){
 	var eventType = "help";
 	if(helpNeeded){
-		helpButton.innerHTML = "AYUDA";
+		helpButton.innerHTML = "HELP!";
 		helpButton.className = "button red";
 		eventType = "solved";
 		/*
@@ -258,7 +258,7 @@ function askForHelp2(){
 		}
 		*/
 	}else{
-		helpButton.innerHTML = "SOLUCIONADO?";
+		helpButton.innerHTML = "SOLVED?";
 		helpButton.className = "button blue";
 	}
 	
@@ -280,9 +280,9 @@ function askForHelp2(){
 function finishSection(){
 	$.blockUI({
 		theme:     true, 
-        title:    "Secci&oacute;n terminada", 
-		message: "<div>&iquest;Seguro que has terminado el apartado correpondiente?<br /><br />" +
-		"<div><input type='button' onclick='$.unblockUI();' value='Cancelar' style='margin-left: 0px;' />" +
+        title:    "Section finished", 
+		message: "<div>Are you sure you finished this section?<br /><br />" +
+		"<div><input type='button' onclick='$.unblockUI();' value='Cancel' style='margin-left: 0px;' />" +
 		"<input type='button' onclick='finishSection2();' value='OK' style='float:right;' /></div></div>"});
 }
 
@@ -302,8 +302,8 @@ function undoFinishSection(){
 	$.blockUI({
 		theme:     true, 
         title:    "Deshacer progreso", 
-		message: "<div>&iquest;Seguro que deseas volver al apartado anterior?<br /><br />" +
-		"<div><input type='button' onclick='$.unblockUI();' value='Cancelar' style='margin-left: 0px;' />" +
+		message: "<div>Are you sure you want to go back to the revious section?<br /><br />" +
+		"<div><input type='button' onclick='$.unblockUI();' value='Cancel' style='margin-left: 0px;' />" +
 		"<input type='button' onclick='undoFinishSection2();' value='OK' style='float:right;' /></div></div>"});
 }
 
@@ -338,7 +338,7 @@ function checkUsers(callback, force){
 		//var server = document.location.href.substr(0,document.location.href.lastIndexOf(':'));
 		server = "163.117.141.206";
 		//server = "127.0.0.1";
-		socket = io.connect(server+':8080');
+		socket = io.connect(server+':80');
 		socket.on('connect', function() {
 			sendEventToServer('new student', {session: session, force: (force==true)});
 			//console.log('new student when connecting');
@@ -354,7 +354,7 @@ function checkUsers(callback, force){
 					}
 					if(regInfo.help){
 						helpNeeded = true;
-						helpButton.innerHTML = "SOLUCIONADO?<br />(Posici&oacute;n en cola: "+regInfo.help+")";
+						helpButton.innerHTML = "SOLVED?<br />(Queue position: "+regInfo.help+")";
 						helpButton.className = "button blue";
 					}
 					if(regInfo.questions){
@@ -369,7 +369,7 @@ function checkUsers(callback, force){
 			
 			socket.on('update queue', function(position){
 				console.log("new position in queue:"+position);
-				helpButton.innerHTML = "SOLUCIONADO?<br />(Posici&oacute;n en cola: "+position+")";
+				helpButton.innerHTML = "SOLVED?<br />(Posici&oacute;n en cola: "+position+")";
 				if(position==0){
 					askForHelp();
 				}
