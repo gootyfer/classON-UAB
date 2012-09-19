@@ -121,7 +121,7 @@ function usersOK(){
 var questions = [];
 
 function show_questions(){
-	var sHTML = "<h4>Preguntas</h4><ul>";
+	var sHTML = "<h4>Questions</h4><ul>";
 	for(var i=0; i<questions.length;i++){
 		var voted = questions[i].votes.indexOf(user[0])!=-1;
 		sHTML+="<li>"+questions[i].description+" (<span>"+questions[i].votes.length+
