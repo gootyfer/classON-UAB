@@ -92,7 +92,7 @@ if(!user){
 	user = user.split(",");
 	checkUsers(function(error){
 		if(error){
-			requestUser("El id de usuario no es correcto. Por favor, rev&iacute;salo y pincha OK.");
+			requestUser("The user id is NOT correct. Please, check it and click OK.");
 		}else{
 			usersOK();
 		}
@@ -125,7 +125,7 @@ function show_questions(){
 	for(var i=0; i<questions.length;i++){
 		var voted = questions[i].votes.indexOf(user[0])!=-1;
 		sHTML+="<li>"+questions[i].description+" (<span>"+questions[i].votes.length+
-			" votos</span>) <input type='button' value='+1' onclick='vote("+i+")' "+
+			" votes</span>) <input type='button' value='+1' onclick='vote("+i+")' "+
 			(voted?"disabled='disabled'":"")+" /></li>";
 	}
 	sHTML += "</ul><br><input type='button' value='BACK' onclick='back()' />";
@@ -301,7 +301,7 @@ function finishSection3(){
 function undoFinishSection(){
 	$.blockUI({
 		theme:     true, 
-        title:    "Deshacer progreso", 
+        title:    "Undo progress", 
 		message: "<div>Are you sure you want to go back to the revious section?<br /><br />" +
 		"<div><input type='button' onclick='$.unblockUI();' value='Cancel' style='margin-left: 0px;' />" +
 		"<input type='button' onclick='undoFinishSection2();' value='OK' style='float:right;' /></div></div>"});
@@ -369,7 +369,7 @@ function checkUsers(callback, force){
 			
 			socket.on('update queue', function(position){
 				console.log("new position in queue:"+position);
-				helpButton.innerHTML = "SOLVED?<br />(Posici&oacute;n en cola: "+position+")";
+				helpButton.innerHTML = "SOLVED?<br />(Queue position: "+position+")";
 				if(position==0){
 					askForHelp();
 				}
