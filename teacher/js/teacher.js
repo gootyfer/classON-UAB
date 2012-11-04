@@ -86,6 +86,7 @@ function showUsers(id){
 				img.src = "/users/photos/f1.png";
 				figurecaption.innerHTML = "NOT FOUND";
 			}
+			img.width = "200";
 			figure.className = "figure";
 			figure.appendChild(img);
 			figure.appendChild(figurecaption);

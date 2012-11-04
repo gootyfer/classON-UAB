@@ -201,7 +201,9 @@ function indicateProgress(back){
 		}
 		
 	}else{
-		sections[currentSection].classList.remove("hide");
+		if(sections[currentSection]){
+			sections[currentSection].classList.remove("hide");
+		}
 		
 		if(currentSection>1){ //Remove listener in former former icon
 			var formerformerIcon = menuItems[currentSection-2].nextElementSibling;
@@ -209,7 +211,7 @@ function indicateProgress(back){
 			formerformerIcon.className = "progressIcon finished";
 		}
 		
-		if(currentSection>0){
+		if(currentSection>0 && menuItems[currentSection-1]){
 			var formerIcon = menuItems[currentSection-1].nextElementSibling;
 			formerIcon.addEventListener("click", undoFinishSection);
 			formerIcon.removeEventListener("click", finishSection);
@@ -222,7 +224,7 @@ function indicateProgress(back){
 			completedDiv.innerHTML = "&iexcl;COMPLETED!";
 			progressdiv.appendChild(completedDiv);
 		}else{
-			if(currentSection>0){
+			if(currentSection>0 && sections[currentSection].id){
 				$('html, body').animate({
 			         scrollTop: $("#"+sections[currentSection].id).offset().top
 			     }, 2000);
