@@ -3,7 +3,11 @@ var http = require('http');
 var path = require('path');
 var fs = require('fs');
 var express = require('express');
+var querystring = require("querystring");
+var url = require("url")
+
 var EventManager = require('./eventmanager').EventManager;
+var AssignmentManager = require('./assignmentmanager').AssignmentManager;
 
 //Express init
 var app = express.createServer();
@@ -13,12 +17,16 @@ io.set('log level', 1);
 
 //Database connection for events
 var eventManager = new EventManager('localhost', 27017);
+var assignmentManager = new AssignmentManager('localhost', 27017);
 
 //Use express config
 app.configure(function(){
     app.use(express.methodOverride());
     app.use(express.bodyParser());
     app.use(app.router);
+    //app.set('views', '/student/assignments');  
+    app.set('view engine', 'ejs');
+	app.set('view options', {layout: false});
 });
 
 /*
@@ -66,7 +74,7 @@ var serve_http = function(request, response){
 			
     }
     
-    path.exists(filePath, function(exists) {
+    fs.exists(filePath, function(exists) {
     	if (exists) {
             fs.readFile(filePath, function(error, content) {
                 if (error) {
@@ -84,8 +92,19 @@ var serve_http = function(request, response){
     });
 };
 
-var show_stats = function(request, response){
-	
+var createAssignment = function(request, response){
+	//console.log(request.body);
+	assignmentManager.save(request.body, function(error, assignments){
+		response.send('/assignment?id='+assignments[0].id);
+	});
+}
+
+var visualizeAssignment = function(request, response){
+	var my_url = url.parse(request.url);
+	var params = querystring.parse(my_url.query);
+	assignmentManager.findLast({id:params['id']}, function(error, assignments){
+		response.render('index.ejs', assignments[0]);
+	});
 }
 
 app.get('/student/*', function (request, response) {
@@ -100,9 +119,13 @@ app.get('/users/photos/*', function (request, response) {
 	serve_http(request, response);
 });
 
-app.get('/stats', function (request, response){
-	show_stats(request, response);
+app.post('/author', function (request, response){
+	createAssignment(request, response);
 });
+
+app.get('/assignment', function (request, response) {
+	visualizeAssignment(request, response);
+})
 
 /*
  * HTTP server end

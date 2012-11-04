@@ -1,0 +1,93 @@
+<html lang="es">
+  <head>
+    <title>classON author</title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" type="text/css" href="css/bootstrap-wysihtml5.css"></link>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"></link>
+    <script src="js/wysihtml5-0.3.0.js"></script>
+    <script src="js/jquery-1.7.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/bootstrap-wysihtml5.js"></script>
+  </head>
+  <body>
+    <header class="jumbotron">
+      <div class="container">
+        <div class="page-header">
+          <h1>classON Author</h1>
+          <p class="lead">a tool to create your classON compatible assignments</p>
+        </div>
+      </div>
+    </header>
+    <div class="container">
+      <div class="row">
+        <div class="span2">
+          <div data-spy="affix">
+            <h2>Índice</h2>
+            <ol id="index"></ol>
+          </div>
+        </div>
+        <div class="span10">
+          <h1>Título</h1><input type="text" id="sessionTitle" placeholder="Título de la sesión" style="font-size:28px; height:38px;" class="span10" />
+          <button class="btn btn-large btn-block" type="button" id="add-section"><i class="icon-plus"></i> Añadir nuevo ejercicio</button>
+          <div class="form-actions">
+            <button id="submit-button" type="submit" class="btn btn-large btn-primary">Guardar enunciado</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <footer class="footer">
+      <div class="container">
+        <p class="pull-right"><strong>classON Author. Israel Gutiérrez Rojas (2012)</strong></p>
+      </div>
+    </footer>
+    <script type="text/javascript">
+
+    var queryString = document.location.href.substr(document.location.href.lastIndexOf('?')+1);
+    var parameters = queryString.split("&");
+    var id = parameters[0].split("=")[1];
+
+    var numSections = 0;
+
+    $('#add-section').click(addSection);
+    $('#submit-button').click(function(){
+      var data = {
+        id: id,
+        title: $('#sessionTitle')[0].value,
+        sections: []
+      };
+      for(var i=1; i<=numSections;i++){
+        data.sections.push({
+          title: $('#title'+i)[0].value,
+          description: $('#description'+i).val()
+        });
+      }
+      $.ajax({
+        type: 'POST',
+        url: '/author',
+        data: data,
+        success: function(data){
+          $('.form-actions').append('<div class="alert alert-success span6 pull-right"><button type="button" class="close" data-dismiss="alert">×</button><h4>Guardado correctamente!</h4>Compruébalo en <a href="'+data+'" target="_blank">este enlace</a></div>');
+          console.log(data);
+        }
+      });
+    });
+
+    function addSection(){
+      numSections++;
+      $('#add-section').before('<section id="s'+numSections+'"><h2>Ejercicio '+numSections+'</h2><input type="text" id="title'+numSections+'" placeholder="Título del ejercicio" style="font-size:21px; height:30px;" class="span10" /><textarea id="description'+numSections+'" style="height: 200px;"  class="span10" placeholder="Escribe el contenido del ejercicio ..."></textarea></section>');
+      $('#description'+numSections).wysihtml5({
+        "font-styles": false,
+        "link": false,
+        "image": false
+      });
+      $('#index').append('<li style="width:150px;"><a href="#s'+numSections+'">Ejercicio '+numSections+'</a></li>');
+      $('#title'+numSections).change(function(){
+        var position = $('section').index(this.parentNode);
+        $('#index li:nth-child('+(position+1)+') a').html(this.value);
+      });
+    }
+
+    addSection();
+    </script>
+  </body>
+</html>
