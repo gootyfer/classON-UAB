@@ -94,8 +94,8 @@
       numSections++;
       $('#add-section').before('<section id="s'+numSections+'"><h2>Ejercicio '+numSections+'</h2><input type="text" id="title'+numSections+'" placeholder="Título del ejercicio" style="font-size:21px; height:30px;" class="span10" /><textarea id="description'+numSections+'" style="height: 200px;"  class="span10" placeholder="Escribe el contenido del ejercicio ..."></textarea></section>');
       $('#description'+numSections).wysihtml5({
-        "font-styles": false
-        "link": false,
+        "font-styles": false,
+        "link": false
         //"image": false
       });
       $('#index').append('<li style="width:150px;"><a href="#s'+numSections+'">Ejercicio '+numSections+'</a></li>');
