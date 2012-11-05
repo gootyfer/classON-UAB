@@ -99,6 +99,22 @@ var createAssignment = function(request, response){
 	});
 }
 
+var getAssignment = function(request, response){
+	var my_url = url.parse(request.url);
+	var params = querystring.parse(my_url.query);
+	assignmentManager.findLast({id:params['id']}, function(error, assignments){
+		if(error){
+			response.writeHead(500);
+            response.end();
+            console.log("error in request");
+            return;
+		}
+		//console.log(results);
+		response.writeHead(200, { 'Content-Type': 'application/json' });
+        response.end(JSON.stringify(assignments[0]), 'utf-8');
+	});
+}
+
 var visualizeAssignment = function(request, response){
 	var my_url = url.parse(request.url);
 	var params = querystring.parse(my_url.query);
@@ -121,6 +137,10 @@ app.get('/users/photos/*', function (request, response) {
 
 app.post('/author', function (request, response){
 	createAssignment(request, response);
+});
+
+app.get('/getAssignment', function (request, response){
+	getAssignment(request, response);
 });
 
 app.get('/assignment', function (request, response) {

@@ -45,8 +45,26 @@
     var queryString = document.location.href.substr(document.location.href.lastIndexOf('?')+1);
     var parameters = queryString.split("&");
     var id = parameters[0].split("=")[1];
-
     var numSections = 0;
+
+    $.ajax({
+        type: 'GET',
+        url: '/getAssignment?id='+id,
+        success: function(data){
+          //console.log(data);
+          if(data && data.title){
+            $('#sessionTitle')[0].value = data.title;
+            for(var i=1; i<=data.sections.length;i++){
+              addSection();
+              $('#title'+i)[0].value = data.sections[i-1].title;
+              $('#index li:nth-child('+i+') a').html(data.sections[i-1].title);
+              $('#description'+i)[0].value = data.sections[i-1].description;
+            }
+          }else{
+            addSection();
+          }
+        }
+    });
 
     $('#add-section').click(addSection);
     $('#submit-button').click(function(){
@@ -65,9 +83,9 @@
         type: 'POST',
         url: '/author',
         data: data,
-        success: function(data){
-          $('.form-actions').append('<div class="alert alert-success span6 pull-right"><button type="button" class="close" data-dismiss="alert">×</button><h4>Guardado correctamente!</h4>Compruébalo en <a href="'+data+'" target="_blank">este enlace</a></div>');
-          console.log(data);
+        success: function(url){
+          $('.form-actions').append('<div class="alert alert-success span6 pull-right"><button type="button" class="close" data-dismiss="alert">×</button><h4>Guardado correctamente!</h4>Compruébalo en <a href="'+url+'" target="_blank">este enlace</a></div>');
+          console.log(url);
         }
       });
     });
@@ -76,9 +94,9 @@
       numSections++;
       $('#add-section').before('<section id="s'+numSections+'"><h2>Ejercicio '+numSections+'</h2><input type="text" id="title'+numSections+'" placeholder="Título del ejercicio" style="font-size:21px; height:30px;" class="span10" /><textarea id="description'+numSections+'" style="height: 200px;"  class="span10" placeholder="Escribe el contenido del ejercicio ..."></textarea></section>');
       $('#description'+numSections).wysihtml5({
-        "font-styles": false,
+        "font-styles": false
         "link": false,
-        "image": false
+        //"image": false
       });
       $('#index').append('<li style="width:150px;"><a href="#s'+numSections+'">Ejercicio '+numSections+'</a></li>');
       $('#title'+numSections).change(function(){
@@ -86,8 +104,6 @@
         $('#index li:nth-child('+(position+1)+') a').html(this.value);
       });
     }
-
-    addSection();
     </script>
   </body>
 </html>
