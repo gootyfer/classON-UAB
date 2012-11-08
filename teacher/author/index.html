@@ -45,6 +45,9 @@
     var queryString = document.location.href.substr(document.location.href.lastIndexOf('?')+1);
     var parameters = queryString.split("&");
     var id = parameters[0].split("=")[1];
+    if(!id){
+      id = window.localStorage.getItem("user");
+    }
     var numSections = 0;
 
     $.ajax({
@@ -68,6 +71,10 @@
 
     $('#add-section').click(addSection);
     $('#submit-button').click(function(){
+      if(!id){
+        $('.form-actions').append('<div class="alert alert-error span6 pull-right"><button type="button" class="close" data-dismiss="alert">×</button><h4>Error al guardar!</h4>Por favor, comprueba que haya incuido el parámetro id en la dirección de la página.');
+        return;
+      }
       var data = {
         id: id,
         title: $('#sessionTitle')[0].value,
