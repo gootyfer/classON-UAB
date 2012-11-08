@@ -84,7 +84,7 @@
         url: '/author',
         data: data,
         success: function(url){
-          $('.form-actions').append('<div class="alert alert-success span6 pull-right"><button type="button" class="close" data-dismiss="alert">×</button><h4>Guardado correctamente!</h4>Compruébalo en <a href="'+url+'" target="_blank">este enlace</a></div>');
+          $('.form-actions').append('<div class="alert alert-success span6 pull-right"><button type="button" class="close" data-dismiss="alert">×</button><h4>Guardado correctamente!</h4>Compruébalo en <a href="'+url.student+'" target="_blank">la interfaz del alumno</a> y en <a href="'+url.teacher+'" target="_blank">la interfaz del profesor</a></div>');
           console.log(url);
         }
       });
