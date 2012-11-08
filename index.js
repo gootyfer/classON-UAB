@@ -97,7 +97,7 @@ var createAssignment = function(request, response){
 	assignmentManager.save(request.body, function(error, assignments){
 		response.send({
 			student:'/assignment?id='+assignments[0].id,
-			teacher:'/teacher?teacher='+assignments[0].id+'&session='+assignments[0].id
+			teacher:'/teacher/?teacher='+assignments[0].id+'&session='+assignments[0].id
 		});
 	});
 }
