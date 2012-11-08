@@ -95,7 +95,10 @@ var serve_http = function(request, response){
 var createAssignment = function(request, response){
 	//console.log(request.body);
 	assignmentManager.save(request.body, function(error, assignments){
-		response.send('/assignment?id='+assignments[0].id);
+		response.send({
+			student:'/assignment?id='+assignments[0].id,
+			teacher:'/teacher?teacher='+assignments[0].id+'&session='+assignments[0].id
+		});
 	});
 }
 
