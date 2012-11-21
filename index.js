@@ -4,7 +4,8 @@ var path = require('path');
 var fs = require('fs');
 var express = require('express');
 var querystring = require("querystring");
-var url = require("url")
+var url = require("url");
+var port = process.env.PORT || 80;
 
 var EventManager = require('./eventmanager').EventManager;
 var AssignmentManager = require('./assignmentmanager').AssignmentManager;
@@ -552,6 +553,6 @@ io.sockets.on('connection', function (socket) {
 });
 
 //Launch app
-app.listen(80);
-console.log('Server running...');
+app.listen(port);
+console.log('Server running on port '+port+'...');
 

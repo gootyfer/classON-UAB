@@ -339,8 +339,9 @@ function checkUsers(callback, force){
 		var server = document.location.href.hostname;
 		//var server = document.location.href.substr(0,document.location.href.lastIndexOf(':'));
 		server = "163.117.141.206";
+		server = window.location.hostname;
 		//server = "127.0.0.1";
-		socket = io.connect(server+':80');
+		socket = io.connect(server);
 		socket.on('connect', function() {
 			sendEventToServer('new student', {session: session, force: (force==true)});
 			//console.log('new student when connecting');
