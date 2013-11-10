@@ -16,6 +16,14 @@ var app = express.createServer();
 var io = require('socket.io').listen(app);
 io.set('log level', 1);
 
+/*
+Needed for heroku hosting
+io.configure(function () {
+  io.set("transports", ["xhr-polling"]);
+  io.set("polling duration", 10);
+});
+*/
+
 //Database connection for events
 var eventManager = new EventManager('localhost', 27017);
 var assignmentManager = new AssignmentManager('localhost', 27017);

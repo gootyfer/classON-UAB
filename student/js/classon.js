@@ -336,10 +336,7 @@ function vote(qid){
 var socket;
 function checkUsers(callback, force){
 	if(!socket){
-		var server = document.location.href.hostname;
-		//var server = document.location.href.substr(0,document.location.href.lastIndexOf(':'));
-		server = "163.117.141.206";
-		server = window.location.hostname;
+		var server = window.location.hostname;
 		//server = "127.0.0.1";
 		socket = io.connect(server);
 		socket.on('connect', function() {
