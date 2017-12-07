@@ -5,7 +5,7 @@ var fs = require('fs');
 var express = require('express');
 var querystring = require("querystring");
 var url = require("url");
-var port = process.env.PORT || 80;
+var port = process.env.PORT || 3000;
 
 var EventManager = require('./eventmanager').EventManager;
 var AssignmentManager = require('./assignmentmanager').AssignmentManager;
@@ -33,7 +33,7 @@ app.configure(function(){
     app.use(express.methodOverride());
     app.use(express.bodyParser());
     app.use(app.router);
-    //app.set('views', '/student/assignments');  
+    //app.set('views', '/student/assignments');
     app.set('view engine', 'ejs');
 	app.set('view options', {layout: false});
 });
@@ -49,7 +49,7 @@ var serve_http = function(request, response){
 	var filePath = '.' + request.url;
 	if(filePath.indexOf('?')!=-1) filePath = filePath.substr(0,filePath.indexOf('?'));
 	if (filePath.substr(-1)==('/')) filePath += 'index.html';
-	
+
     var extname = path.extname(filePath);
     var contentType = 'text/html';
     switch (extname) {
@@ -80,9 +80,9 @@ var serve_http = function(request, response){
 		case '.ogg':
 			contentType = 'application/ogg';
 			break;
-			
+
     }
-    
+
     fs.exists(filePath, function(exists) {
     	if (exists) {
             fs.readFile(filePath, function(error, content) {
@@ -166,7 +166,7 @@ app.get('/assignment', function (request, response) {
 
 //sessions: list of users in the session, including their status
 //queues: list of the users in the waiting queue (identified by IP)
-/*	session_item = { 
+/*	session_item = {
 		username: ["username", ..],
 		exercise: 0,
 		help: false,
@@ -277,7 +277,7 @@ function sendQuestions(event, sessionType){
 
 //Connection of the new websocket client
 io.sockets.on('connection', function (socket) {
-	
+
 	//Event to request user list (TEACHER)
 	socket.on('userList', function (userParams) {
 		//console.log('userList:'+JSON.stringify(userParams));
@@ -291,7 +291,7 @@ io.sockets.on('connection', function (socket) {
 				}
 		});
 	});
-	
+
 	//Learning event (STUDENT)
 	socket.on('new event', function(event){
 		eventManager.save(event, function(error, events){
@@ -299,7 +299,7 @@ io.sockets.on('connection', function (socket) {
 			//fakeIP
 			//event.IP = socket.handshake.address.address;
 			console.log('new event:'+JSON.stringify(event));
-			
+
 			//Forward event to the teachers + other students: old
 			//socket.broadcast.emit('event', event);
 
@@ -312,22 +312,22 @@ io.sockets.on('connection', function (socket) {
 			}else{
 				var my_session = getSession(event.session);
 				var my_queue = getQueue(event.session);
-				
+
 				//console.log('new event(my_session):'+JSON.stringify(my_session));
 				//console.log('new event(my_queue):'+JSON.stringify(my_queue));
-				
+
 				//console.log('new event(sessions):'+JSON.stringify(sessions));
 				//console.log('new event(queues):'+JSON.stringify(queues));
-				
+
 				var students = event.user;
-				
+
 				//for(var i=0; i<students.length; i++){
 					var found = false;
 					for(var j=0; j<my_session.length; j++){
 						//check by first username only
 						if(my_session[j].username.indexOf(students[0])!=-1){
 							switch(event.eventType){
-							
+
 							case "connection":
 								break;
 							case "finishSection":
@@ -365,21 +365,21 @@ io.sockets.on('connection', function (socket) {
 					if(!found){
 						//Error situation: Not found!
 						console.log("Error: not found info about students "+students.join(","));
-						my_session.push({ 
+						my_session.push({
 							username: students,
 							exercise: 0,
 							help: false,
 							IP: event.IP
 						});
 					}
-					
+
 				//}
-				
+
 				console.log("sessions after the event:");
 				console.log(my_session);
 				console.log("queue after the event:");
 				console.log(my_queue);
-				
+
 				sendEventToSession(event, "sessionTeacher");
 				/*
 				//Test retransmission of messages:done
@@ -389,7 +389,7 @@ io.sockets.on('connection', function (socket) {
 				//console.log('sockets.length:'+clients.length);
 				//console.log(clients[0]);
 				//io.sockets.emit('event', event);
-				
+
 				for(var i=0; i<clients.length; i++){
 					//console.log('sockets[i]:'+JSON.stringify(io.sockets[i]));
 					clients[i].get("session", function(err, teacher_session){
@@ -406,17 +406,17 @@ io.sockets.on('connection', function (socket) {
 				*/
 
 			}
-			
+
 		});
 	});
-	
-	
+
+
 	//Init or end help event (TEACHER)
 	socket.on('teacher event', function(event){
 		if(event.user){
 			var IP = event.IP;
 			//delete event.IP;
-			
+
 			var my_session = getSession(event.session);
 			var my_queue = getQueue(event.session);
 			//console.log('teacher event before loop'+JSON.stringify(event));
@@ -433,8 +433,8 @@ io.sockets.on('connection', function (socket) {
 						if(event.eventType=="initHelp"){
 							//Send event that updates all teachers
 							sendEventToSession({
-								IP:event.IP, 
-								eventType:"initHelp", 
+								IP:event.IP,
+								eventType:"initHelp",
 								session:event.session
 							}, "sessionTeacher");
 						}else{//endHelp
@@ -444,7 +444,7 @@ io.sockets.on('connection', function (socket) {
 					}
 				}
 			//}
-			
+
 			console.log("sessions after the event:");
 			console.log(my_session);
 			console.log("queue after the event:");
@@ -457,9 +457,9 @@ io.sockets.on('connection', function (socket) {
 				console.log('teacher event'+JSON.stringify(event));
 			});
 		});
-		
+
 	});
-	
+
 	//New student event (STUDENT)
 	socket.on("new student", function(users){
 		students = users.user;
@@ -480,7 +480,7 @@ io.sockets.on('connection', function (socket) {
 				//console.log('new student(userInfoArray):'+userInfoArray);
 				//for(var i=0; i<students.length; i++){
 					var found = false;
-					
+
 					for(var j=0; j<my_session.length; j++){
 						//check by first username only
 						if(my_session[j].username.indexOf(students[0])!=-1){
@@ -495,7 +495,7 @@ io.sockets.on('connection', function (socket) {
 							}else{
 								socket.emit('student registered', {
 									userInfoArray : userInfoArray,
-									exercise: my_session[j].exercise, 
+									exercise: my_session[j].exercise,
 									help: (my_queue_pos===-1)?false:(my_queue_pos+1),
 									questions: my_questions
 								});
@@ -506,7 +506,7 @@ io.sockets.on('connection', function (socket) {
 					}
 					if(!found){
 						//Not found
-						my_session.push({ 
+						my_session.push({
 							username: students,
 							exercise: 0,
 							help: false,
@@ -529,7 +529,7 @@ io.sockets.on('connection', function (socket) {
 			}
 		});
 	});
-	
+
 	//New teacher event (TEACHER)
 	socket.on("new teacher", function(info){
 		var my_session = getSession(info.session);
@@ -543,7 +543,7 @@ io.sockets.on('connection', function (socket) {
 		socket.emit('init', {session: my_session, queue: my_queue, questions: my_questions});
 		console.log('new teacher ('+info.teacher_id+') at session '+info.session);
 	});
-	
+
 	//Client disconnected!
 	socket.on("disconnect", function(){
 		/*
@@ -563,4 +563,3 @@ io.sockets.on('connection', function (socket) {
 //Launch app
 app.listen(port);
 console.log('Server running on port '+port+'...');
-
